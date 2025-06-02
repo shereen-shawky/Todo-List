@@ -81,30 +81,35 @@ export default function ListItems({todos}) {
     <Card className='todoCard' sx={{ minWidth: 275 ,marginTop: 2, backgroundColor: '#283593' ,color: '#fff'}}>
 
       <CardContent>
-        <Grid container spacing={2}>
-        <Grid size={8} sx={{textAlign: 'right'}}>
-          
-        <Typography variant='h6' style={{fontWeight: '100',textDecorationLine: todos.completed ? 'line-through' : 'none'}}>
-          {todos.title}
-        </Typography>
-        <Typography variant='h7' style={{fontWeight: '100',marginTop: '5px'}}>
-          {todos.details}
-        </Typography>
-        </Grid>
-        <Grid size={4} display= 'flex' justifyContent= 'space-around' alignItems= 'center'>
-          <IconButton onClick={clickCheckButton} className='IconButton' aria-label="delete" style={{color: todos.completed?'#fff': '#8bc34a',backgroundColor:todos.completed? '#8bc34a' :'#fff',border: '3px solid #8bc34a'}}>
-            <CheckIcon />
-          </IconButton>
-          <IconButton  onClick={handleEditButton} className='IconButton'aria-label="delete" style={{color: '#1769aa',backgroundColor: 'white',border: '3px solid #1769aa'}}>
-            <EditOutlinedIcon />
-          </IconButton>
-          <IconButton  onClick={handleDeleteButton}  className='IconButton'aria-label="delete" style={{color: '#b23c17',backgroundColor: 'white',border: '3px solid #b23c17'}}>
-            <DeleteOutlineIcon />
-          </IconButton>
-          
-        </Grid>
-      </Grid>
-        
+        <div
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'space-between',
+            width: '100%',
+            gap: 8,
+          }}
+        >
+          <div style={{ flex: 1, textAlign: 'right' }}>
+            <Typography variant='h6' style={{ fontWeight: '100', textDecorationLine: todos.completed ? 'line-through' : 'none' }}>
+              {todos.title}
+            </Typography>
+            <Typography variant='body2' style={{ fontWeight: '100', marginTop: '5px' }}>
+              {todos.details}
+            </Typography>
+          </div>
+          <div style={{ display: 'flex', gap: 8 }}>
+            <IconButton onClick={clickCheckButton} className='IconButton' aria-label="delete" style={{ color: todos.completed ? '#fff' : '#8bc34a', backgroundColor: todos.completed ? '#8bc34a' : '#fff', border: '3px solid #8bc34a' }}>
+              <CheckIcon />
+            </IconButton>
+            <IconButton onClick={handleEditButton} className='IconButton' aria-label="delete" style={{ color: '#1769aa', backgroundColor: 'white', border: '3px solid #1769aa' }}>
+              <EditOutlinedIcon />
+            </IconButton>
+            <IconButton onClick={handleDeleteButton} className='IconButton' aria-label="delete" style={{ color: '#b23c17', backgroundColor: 'white', border: '3px solid #b23c17' }}>
+              <DeleteOutlineIcon />
+            </IconButton>
+          </div>
+        </div>
       </CardContent>
       
     </Card>
