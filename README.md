@@ -1,17 +1,38 @@
-# React + Vite
+# 📝 Shereen's Todo App
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
-
-Currently, two official plugins are available:
-
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
-
-## Expanding the ESLint configuration
-
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+A simple, responsive, and modern Todo List web application built using **React**. This app helps users manage daily tasks efficiently with a clean UI and intuitive functionality.
 
 ## 🔗 Live Demo
 
-[View the live project here]
-https://shereens-todo-app.netlify.app/
+➡️ [Visit the Live App](https://shereens-todo-app.netlify.app/)
+
+---
+
+## 🚀 Features
+
+- ✅ Add and remove todos
+- 🖊️ Edit existing tasks
+- ✔️ Mark tasks as completed or non completed
+- 🗂️ Filter tasks by status (All / Non Completed / Completed)
+- 🧹 Clear completed tasks
+- 📱 Fully responsive design with Material UI components
+- 💾 Data persistence using local storage
+
+---
+
+## 🛠️ Built With
+
+### 🧩 React Concepts & Architecture
+- React Context API (`createContext` & `useContext`) for global state management
+- `useState` and `useEffect` hooks for local state and side effects
+- Functional components and controlled inputs
+- Conditional rendering and component composition
+
+### 🧰 Tools & Technologies
+- React 18+
+- Material UI (MUI) — for pre-built, customizable React UI components and styling
+- JavaScript (ES6+)
+- HTML5 & CSS3
+- Netlify — for deployment and continuous integration
+- Git & GitHub — for version control
+
