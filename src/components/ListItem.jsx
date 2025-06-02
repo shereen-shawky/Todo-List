@@ -88,17 +88,37 @@ export default function ListItems({todos}) {
             justifyContent: 'space-between',
             width: '100%',
             gap: 8,
+            flexWrap: 'wrap', // Allow wrapping on small screens
           }}
         >
-          <div style={{ flex: 1, textAlign: 'right' }}>
-            <Typography variant='h6' style={{ fontWeight: '100', textDecorationLine: todos.completed ? 'line-through' : 'none' }}>
+          <div style={{ flex: 1, textAlign: 'right', minWidth: 0 }}>
+            <Typography
+              variant='h6'
+              style={{
+                fontWeight: '100',
+                textDecorationLine: todos.completed ? 'line-through' : 'none',
+                wordBreak: 'break-word', // Prevent overflow
+              }}
+            >
               {todos.title}
             </Typography>
-            <Typography variant='body2' style={{ fontWeight: '100', marginTop: '5px' }}>
+            <Typography
+              variant='body2'
+              style={{
+                fontWeight: '100',
+                marginTop: '5px',
+                wordBreak: 'break-word', // Prevent overflow
+              }}
+            >
               {todos.details}
             </Typography>
           </div>
-          <div style={{ display: 'flex', gap: 8 }}>
+          <div style={{
+            display: 'flex',
+            gap: 8,
+            flexShrink: 0, // Prevent buttons from shrinking too much
+            marginTop: 8,
+          }}>
             <IconButton onClick={clickCheckButton} className='IconButton' aria-label="delete" style={{ color: todos.completed ? '#fff' : '#8bc34a', backgroundColor: todos.completed ? '#8bc34a' : '#fff', border: '3px solid #8bc34a' }}>
               <CheckIcon />
             </IconButton>
