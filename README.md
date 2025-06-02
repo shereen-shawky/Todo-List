@@ -14,4 +14,4 @@ If you are developing a production application, we recommend using TypeScript wi
 ## 🔗 Live Demo
 
 [View the live project here]
-https://glowing-parfait-abdd3e.netlify.app/
+https://shereens-todo-app.netlify.app/
