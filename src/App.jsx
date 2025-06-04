@@ -4,7 +4,7 @@ import List from "./components/List"
 import { ThemeProvider, createTheme } from '@mui/material/styles';
 import {completedcontext} from './contexts/completedcontext.jsx';
 import { v4 as uuidv4 } from 'uuid';
-
+import {SnackBarProvider} from './contexts/snackBarcontext.jsx';
 
 const theme = createTheme({
   typography: {
@@ -22,14 +22,18 @@ let initialItems=[
 ]
 
 function App() {
+
   let [todoItems, setTodoItems] = useState(initialItems);
 
   return (
+    
     <completedcontext.Provider value={[todoItems,setTodoItems]}>
     <ThemeProvider theme={theme}>
+    <SnackBarProvider>
     <div className="App" style={{ direction: 'rtl', fontFamily: 'A' ,display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
       <List />
     </div>
+    </SnackBarProvider>
     </ThemeProvider>
     </completedcontext.Provider>
   )

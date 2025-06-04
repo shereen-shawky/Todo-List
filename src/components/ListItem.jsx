@@ -11,12 +11,7 @@ import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { useContext ,useState} from 'react';
 import { completedcontext } from '../contexts/completedcontext.jsx';
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-import TextField from '@mui/material/TextField';
+import { usesnackBar } from '../contexts/snackBarcontext.jsx';
 //ctrl f for search
 const Item = styled(Paper)(({ theme }) => ({
   backgroundColor: '#fff',
@@ -29,11 +24,11 @@ const Item = styled(Paper)(({ theme }) => ({
   }),
 }));
 
-export default function ListItems({todos}) {
+export default function ListItems({todos,handleDelete,handleEdit}) {
     let [todoItems, setTodoItems] = useContext(completedcontext);
-    let [deletedialogOpen, setDeleteDialogOpen] = useState(false);
-    let [editdialogOpen, setEditDialogOpen] = useState(false);
-    let [Input, setInput] = useState({title:todos.title,Details:todos.details});
+    let {showhideSnackBar} = usesnackBar();
+    
+    
   function clickCheckButton() {
     let newItems = todoItems.map((item) => {
       if (item.id === todos.id) {
@@ -43,39 +38,17 @@ export default function ListItems({todos}) {
     });
     setTodoItems(newItems);
     localStorage.setItem("todos",JSON.stringify(newItems));
+    showhideSnackBar(todos.completed ? "تم إلغاء إكمال المهمة" : "تم إكمال المهمة بنجاح");
 
   }
   function handleDeleteButton () {
-    setDeleteDialogOpen(true);
+    handleDelete(todos);
   }
-  function handleClose() {
-    setDeleteDialogOpen(false);
-  }
-  function handleDeleteConfirm() {
-    let newtodos = todoItems.filter((item) => item.id !== todos.id);
-    setTodoItems(newtodos);
-    localStorage.setItem("todos",JSON.stringify(newtodos));
-
-    setDeleteDialogOpen(false);
-  }
+  
   function handleEditButton() {
-    setEditDialogOpen(true);
+    handleEdit(todos);
   }
-  function handleEditClose() {
-    setEditDialogOpen(false);
-  }
-  function handleEditConfirm() {
-    let newItems = todoItems.map((item) => {
-      if (item.id === todos.id) {
-        return { ...item,title: Input.title, details: Input.Details };
-      }
-      return item;
-    });
-    setTodoItems(newItems);
-    localStorage.setItem("todos",JSON.stringify(newItems));
-
-    setEditDialogOpen(false);
-  }
+  
   return (
     <>
     <Card className='todoCard' sx={{ minWidth: 275 ,marginTop: 2, backgroundColor: '#283593' ,color: '#fff'}}>
@@ -133,71 +106,8 @@ export default function ListItems({todos}) {
       </CardContent>
       
     </Card>
-    <Dialog
-    style={{ direction: 'rtl' }}
-        open={deletedialogOpen}
-        onClose={handleClose}
-        // onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          هل انت متأكد من حذف هذه المهمة؟
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            لا يمكن التراجع عن هذا الإجراء. إذا قمت بحذف هذه المهمة، فلن تتمكن من استعادتها مرة أخرى.
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>اغلاق</Button>
-          <Button autoFocus onClick={handleDeleteConfirm} style={{color: '#b23c17'}}>
-          نعم قم بحذفها
-          </Button>
-        </DialogActions>
-      </Dialog>
-      <Dialog
-    style={{ direction: 'rtl' }}
-        open={editdialogOpen}
-        onClose={handleEditClose}
-        // onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-        تعديل المهمة
-        </DialogTitle>
-        <DialogContent>
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            name="email"
-            label="عنوان المهمة"
-            fullWidth
-            variant="standard"
-            value={Input.title}
-            onChange={(e) => setInput({...Input,title:e.target.value })}
-          />
-          <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            name="email"
-            label="تفاصيل المهمة"
-            fullWidth
-            variant="standard"
-            value={Input.Details}
-            onChange={(e) => setInput({...Input,Details:e.target.value })}
-          />
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleEditClose}>اغلاق</Button>
-          <Button autoFocus onClick={handleEditConfirm} >
-            تاكيد
-          </Button>
-        </DialogActions>
-      </Dialog>
+    
+      
       </>
   )
 }
