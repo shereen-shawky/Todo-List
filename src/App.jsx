@@ -2,7 +2,7 @@ import { useState } from 'react'
 import './App.css'
 import List from "./components/List"
 import { ThemeProvider, createTheme } from '@mui/material/styles';
-import {completedcontext} from './contexts/completedcontext.jsx';
+import {CompletedContextProvider} from './contexts/completedcontext.jsx';
 import { v4 as uuidv4 } from 'uuid';
 import {SnackBarProvider} from './contexts/snackBarcontext.jsx';
 
@@ -27,7 +27,7 @@ function App() {
 
   return (
     
-    <completedcontext.Provider value={[todoItems,setTodoItems]}>
+    <CompletedContextProvider >
     <ThemeProvider theme={theme}>
     <SnackBarProvider>
     <div className="App" style={{ direction: 'rtl', fontFamily: 'A' ,display: 'flex', justifyContent: 'center', alignItems: 'center'}}>
@@ -35,7 +35,7 @@ function App() {
     </div>
     </SnackBarProvider>
     </ThemeProvider>
-    </completedcontext.Provider>
+    </CompletedContextProvider>
   )
 }
 

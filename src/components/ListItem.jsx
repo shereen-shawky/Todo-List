@@ -10,7 +10,7 @@ import EditOutlinedIcon from '@mui/icons-material/EditOutlined';
 import Button from '@mui/material/Button';
 import IconButton from '@mui/material/IconButton';
 import { useContext ,useState} from 'react';
-import { completedcontext } from '../contexts/completedcontext.jsx';
+import {useContextReducer}  from '../contexts/completedcontext.jsx';
 import { usesnackBar } from '../contexts/snackBarcontext.jsx';
 //ctrl f for search
 const Item = styled(Paper)(({ theme }) => ({
@@ -25,19 +25,24 @@ const Item = styled(Paper)(({ theme }) => ({
 }));
 
 export default function ListItems({todos,handleDelete,handleEdit}) {
-    let [todoItems, setTodoItems] = useContext(completedcontext);
+    // let [todoItems, setTodoItems] = useContext(completedcontext);
     let {showhideSnackBar} = usesnackBar();
-    
+    let [todoItems, dispatch] = useContextReducer();
     
   function clickCheckButton() {
-    let newItems = todoItems.map((item) => {
-      if (item.id === todos.id) {
-        return { ...item, completed: !item.completed };
-      }
-      return item;
+    dispatch({
+      type: 'TOGGLE_ITEM',
+      payload: todos,
     });
-    setTodoItems(newItems);
-    localStorage.setItem("todos",JSON.stringify(newItems));
+    // let newItems = todoItems.map((item) => {
+    //   if (item.id === todos.id) {
+    //     return { ...item, completed: !item.completed };
+    //   }
+    //   return item;
+    // });
+    // setTodoItems(newItems);
+    // localStorage.setItem("todos",JSON.stringify(newItems));
+
     showhideSnackBar(todos.completed ? "تم إلغاء إكمال المهمة" : "تم إكمال المهمة بنجاح");
 
   }

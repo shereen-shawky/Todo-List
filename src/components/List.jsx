@@ -1,4 +1,4 @@
-import React, { useEffect,useState ,useContext,useMemo} from 'react'
+import React, { useEffect,useState ,useContext,useMemo,useReducer} from 'react'
 import Container from '@mui/material/Container';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
@@ -9,16 +9,19 @@ import ListItems from './ListItem.jsx';
 import { v4 as uuidv4 } from 'uuid';
 import Grid from '@mui/material/Grid';
 import TextField from '@mui/material/TextField';
-import { completedcontext } from '../contexts/completedcontext.jsx';
+import {useContextReducer}  from '../contexts/completedcontext.jsx';
 import Dialog from '@mui/material/Dialog';
 import DialogActions from '@mui/material/DialogActions';
 import DialogContent from '@mui/material/DialogContent';
 import DialogContentText from '@mui/material/DialogContentText';
 import DialogTitle from '@mui/material/DialogTitle';
 import { usesnackBar } from '../contexts/snackBarcontext.jsx';
+import reducer from '../Reducers/AddReducer.jsx';
 export default function List() {
 
-    let [todoItems, setTodoItems] = useContext(completedcontext);
+    // let [todoItems1, setTodoItems] = useContext(completedcontext);
+    // const [todoItems, dispatch] = useReducer(reducer, []);
+    const [todoItems, dispatch] = useContextReducer()
     let {showhideSnackBar} = usesnackBar();
     let [titleInput, setTitleInput] = useState("")
     let [displayedItems, setDisplayedItems] = useState("All");
@@ -41,7 +44,7 @@ export default function List() {
             <ListItems key={item.id} todos={item} handleDelete={handleDeleteButton}  handleEdit={handleEditButton}           />
         );
     })
-     
+
     // function handleCompletedtoDos(todosid) {
     //     let newItems = todoItems.map((item) => {
     //         if (item.id === todosid) {
@@ -50,24 +53,23 @@ export default function List() {
     //     return item;});
     //     setTodoItems(newItems);}
     function handleAddItem(){
-        let newItem={
-            id:uuidv4(),
-            title:titleInput,
-            details:"",
-            completed:false
-        }
-        setTodoItems([...todoItems,newItem]);
-        localStorage.setItem("todos",JSON.stringify([...todoItems,newItem]));
+        dispatch({
+            type: 'ADD_ITEM',
+            payload: {
+                title: titleInput,
+            }
+        });
         showhideSnackBar("تمت إضافة المهمة بنجاح");
-
         setTitleInput("");
     }
     //use effect is used for side effects, like fetching data or updating the DOM
     useEffect(() => {
-        const storedTodos = localStorage.getItem("todos");
-        if (storedTodos) {
-            setTodoItems(JSON.parse(storedTodos));
-        }
+        // const storedTodos = localStorage.getItem("todos");
+        // if (storedTodos) {
+        //     setTodoItems(JSON.parse(storedTodos));
+        // }
+        dispatch({ type: "getTodos" });
+        console.log("useEffect called");
     }, []);
 
 
@@ -81,11 +83,16 @@ export default function List() {
     setDeleteDialogOpen(true);
   }
   function handleDeleteConfirm() {
-    let newtodos = todoItems.filter((item) => item.id !== dialogTodos.id);
-    setTodoItems(newtodos);
-    localStorage.setItem("todos",JSON.stringify(newtodos));
+    // let newtodos = todoItems.filter((item) => item.id !== dialogTodos.id);
+    // setTodoItems(newtodos);
+    // localStorage.setItem("todos",JSON.stringify(newtodos));
+    dispatch({
+      type: 'REMOVE_ITEM',
+      payload: {
+        id: dialogTodos.id,
+      }
+    });
     showhideSnackBar("تم حذف المهمة بنجاح");
-
     setDeleteDialogOpen(false);
   }
   function handleEditButton(todos) {
@@ -96,15 +103,22 @@ export default function List() {
     setEditDialogOpen(false);
   }
   function handleEditConfirm() {
-    let newItems = todoItems.map((item) => {
-      if (item.id === dialogTodos.id) {
-        return { ...item,title: dialogTodos.title, details: dialogTodos.Details };
+    // let newItems = todoItems.map((item) => {
+    //   if (item.id === dialogTodos.id) {
+    //     return { ...item,title: dialogTodos.title, details: dialogTodos.Details };
+    //   }
+    //   return item;
+    // });
+    // setTodoItems(newItems);
+    // localStorage.setItem("todos",JSON.stringify(newItems));
+    dispatch({
+      type: 'UPDATE_ITEM',
+      payload: {
+        id: dialogTodos.id,
+        title: dialogTodos.title,
+        details: dialogTodos.Details
       }
-      return item;
     });
-    setTodoItems(newItems);
-    localStorage.setItem("todos",JSON.stringify(newItems));
-
     setEditDialogOpen(false);
     showhideSnackBar("تم تعديل المهمة بنجاح");
   }
